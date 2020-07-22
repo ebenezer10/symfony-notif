@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DefaultController!{% endblock %}
+
+{% block body %}
+
+<p>You are {{ app.user.firstName }}</p>
+{% for user in users %}
+<p>
+    <a href="{{ path('send_data',{'user':user.id}) }}">Call {{ user.firstName }}</a>
+</p>
+{% endfor %}
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    const userId = "{{ app.user.id }}";
+    const es = new EventSource('http://localhost:3000/.well-known/mercure?topic=' + encodeURIComponent('http://primus-notif-hub.com/user/'+userId));
+    es.onmessage = e => {
+        // Will be called every time an update is published by the server
+        console.log(JSON.parse(e.data));
+    }
+</script>
+{% endblock %}
