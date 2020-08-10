@@ -1,59 +1,169 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}Hello DefaultController!
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/jquery.custom-scrollbar.css') }}" />
+{% endblock %}
 
 {% block body %}
+<div class="modal fade" tabindex="-1" id="exampleModal" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Informations sur un utilisateur</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><img src="{{ asset('img/avatar.png') }}"/></p>
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Réveiller</button>
+                <button type="button" class="btn btn-primary">Appeler</button>
+                <button type="button" class="btn btn-primary">Envoyer un message</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 <div class="container">
-    <div class="row mt-4">
+    <div class="row mt-5">
         <div class="col-lg-4">
-            <ul class="list-group mt-3 shadow-sm">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Rechercher" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
-                    </form>
-                </li>
-                {% for user in users %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>
-                        <img src="{{ asset('img/avatar.png') }}" width="60" />
-                    </span>
+            <div class="bg-white border">
+                <table class="table table-striped">
+                    <thead>
+                        <!--<tr>
+                        <form class="form-inline">
+                            <div class="input-group">
+                                <input class="form-control" type="search" placeholder="Rechercher" aria-label="Search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success" type="submit">Rechercher</button>
+                                </div>
+                            </div>
+                        </form>
+                    </tr>-->
+                        <tr>
+                            <td colspan="2">Utilisateurs du système</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>
+                                <span>
+                                    <img src="{{ asset('img/avatar.png') }}" height="40" class="rounded-circle" />
+                                    <span class="ml-2">
+                                        {{ user.firstName~" "~user.lastName }}
+                                    </span>
+                                </span>
 
-                    <span>
-                        {{ user.firstName~" "~user.lastName }}
-                    </span>
-
-                    <span>
-                        <a href="{{ path('send_data',{'user':user.id}) }}" class="">
-                            <span class="material-icons">
-                                call
-                            </span>
-                        </a>
-                        <a href="{{ path('send_data',{'user':user.id}) }}" class="pl-2 text-warning">
-                            <span class="material-icons">
-                                message
-                            </span>
-                        </a>
-                    </span>
-                </li>
-                {% endfor %}
-            </ul>
+                            </td>
+                            <td>
+                                <span>
+                                    <a href="{{ path('send_data',{'user':user.id}) }}" class="text-success">
+                                        <span class="material-icons">
+                                            call
+                                        </span>
+                                    </a>
+                                    <a href="#" data-toggle="modal" data-target="#exampleModal" class="pl-2 text-info">
+                                        <span class="material-icons">
+                                            info
+                                        </span>
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="col-lg-8"></div>
+        <div class="col-lg-5">
+            <div v-if=" state === 0 " class="bg-dark text-white text-center border p-5">
+                <p class="display-5">Anonymous</p>
+                <p>is calling you</p>
+                <p>
+                    <img src="{{ asset('img/phone.png') }}" class="py-5 phone" />
+                </p>
+                <button class="btn btn-lg btn-success rounded-pill">OK décrocher</button>
+            </div>
+            <div v-else class="bg-white text-center border py-5 px-3">
+                <p class="display-5">Centre de contrôle</p>
+                <p>
+                    <span class="material-icons" style="font-size: 150px;">
+                        admin_panel_settings
+                    </span>
+                </p>
+                <p>Aucune activité en cours</p>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="bg-white border pt-3">
+                <p class="px-3">
+                    <span class="material-icons text-warning">
+                        chat
+                    </span>
+                    <span style="position: relative; top: -08px;">
+                        Centre de messagerie
+                    </span>
+                </p>
+                <hr />
+                <div class="px-2 pb-3">
+                    <div class="exchange-zone border px-2 default-skin">
+                        <div class="bubble bubble-self">Hi, how are you?</div>
+                        <div class="bubble bubble-other">I think fine</div>
+                        <div class="bubble bubble-self">Are you there?</div>
+                        <div class="bubble bubble-other">Hello</div>
+                        <div class="bubble bubble-other">Lorem Ipsum is simply dummy text of the printing and
+                            typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+                            1500s, when an unknown printer took a galley of type and scrambled it to make a type
+                            specimen book.</div>
+                    </div>
+                    <div class="writting-zone mt-2">
+                        <form class="form-inline">
+                            <div class="input-group">
+                                <input class="form-control rounded-pill" type="text" placeholder="Saisissez un message"
+                                    aria-label="Search">
+                                <div class="input-group-append">
+                                    <a href="{{ path('send_message',{'user':2,'message':'hello'}) }}"
+                                        class="btn btn-primary rounded-pill" type="submit">OK</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 {% endblock %}
 
 {% block javascripts %}
+<script src="{{ asset('js/jquery.custom-scrollbar.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $(".exchange-zone").customScrollbar({
+            skin: "default-skin",
+            hScroll: false,
+        });
+    });
+</script>
 <script>
     const userId = "{{ app.user.id }}";
     const es = new EventSource('http://localhost:3000/.well-known/mercure?topic=' + encodeURIComponent('http://primus-notif-hub.com/user/' + userId));
-    es.onmessage = e => {
-        // Will be called every time an update is published by the server
-        console.log(JSON.parse(e.data));
-        playAudio();
+    es.onmessage = e => { // Will be called every time an update is published by the server
+        parsedData = JSON.parse(e.data);
+        console.log(parsedData.message);
+        sayHello();
     }
 </script>
 {% endblock %}

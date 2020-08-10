@@ -43,4 +43,20 @@ class DefaultController extends AbstractController
 
         return new Response('published!');
     }
+
+    /**
+     * @Route("/sendMessage/{user}/{message}", name="send_message")
+     */
+    public function sendMessage(PublisherInterface $publisher,User $user, $message): Response
+    {
+        $update = new Update(
+            'http://primus-notif-hub.com/user/'.$user->getId(),
+            json_encode(['status' => 'OutOfStock', 'message'=>$message])
+        );
+
+        // The Publisher service is an invokable object
+        $publisher($update);
+
+        return new Response('published!');
+    }
 }

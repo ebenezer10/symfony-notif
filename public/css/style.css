@@ -1,4 +1,78 @@
 body{
   padding-top: 60px;
   font-family: 'Roboto', sans-serif;
+  background-color: #e9ebee;
+}
+
+.notification-center{
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 20px;
+  min-height: 300px;
+  padding: 10px 20px;
+}
+
+.display-5 {
+  font-size: 3.0rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.display-6 {
+  font-size: 2.0rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+
+
+
+@keyframes zoominoutsinglefeatured {
+  0% {
+      transform: scale(1,1);
+  }
+  50% {
+      transform: scale(1.2,1.2);
+  }
+  100% {
+      transform: scale(1,1);
+  }
+}
+
+.phone {
+  animation: zoominoutsinglefeatured 1s infinite ;
+}
+
+.exchange-zone{
+  height: 350px;
+  width: 100%;
+  overflow-y: hidden;
+}
+.writting-zone{
+  
+}
+
+.menus{
+  position: relative;
+  top: -5px;
+}
+
+.bubble{
+  border: solid 1px rgba(0,0,0,0.1);
+  max-width: 70%;
+  padding: 4px 15px;
+  border-radius: 20px;
+  margin: 2px 0px 0px 0px;
+  font-size: 14px;
+  clear: both;
+}
+.bubble-self{
+  background-color: blueviolet;
+  color: #ffffff;
+  float: right;
+}
+
+.bubble-other{
+  background-color: darkgreen;
+  color: #ffffff;
+  float: left;
 }
